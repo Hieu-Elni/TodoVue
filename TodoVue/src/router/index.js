@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-
+import TodoListBasic from '@/components/TodoListBasic'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      path: '/basic',
+      name: 'TodoList',
+      component: TodoListBasic
     }
-  ]
+  ],
+    mode:'history',
 })
