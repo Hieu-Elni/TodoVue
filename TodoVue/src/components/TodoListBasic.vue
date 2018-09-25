@@ -127,23 +127,5 @@
     }
 </script>
 <style>
-#list-todo{
-    width: 600px;
-    margin: 0 auto;
-}
-.todo-item{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-}
-.todo-item-left{
-    display:flex;
-    align-items:center;
-}
-.container1{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
+
 </style>

@@ -10,15 +10,9 @@
                         <input type="checkbox"  class='toogle-all'>
                         <input type="text"  v-model='newTodo' class="input1" placeholder="What needs to be done?" v-on:keyup.enter="addTodo">
                     </div>
-                    <div v-for="(todo,index) in filterTodos" :key="todo.id" class="todo-item">
-                        <div class='todo-item-left'>
-                        <input type='checkbox' v-model='todo.completed'>
-                        <div v-if='!todo.editing' @dblclick='editTodo(todo)' class='todo-item-label'>{{todo.title}}</div>
-                        
-                        <input  v-else v-model='todo.title' @keyup.enter='doneEdit(todo)' @blur="doneEdit(todo)" class='todo-item-edit' type='text'>
-                        </div>
-                        <div class="remove-item" @click="removeTodo(index)"><i class="fa fa-times"></i></div>
-                    </div>
+                    <TodoItem v-for="(todo,index) in filterTodos" :key="todo.id" :index='index' :todo='todo' class="todo-item">
+
+                    </TodoItem>
                 </div>
                 <div class='container1'>
                     <div>
@@ -40,10 +34,13 @@
         </div>
     </div>
 </template>
-
 <script>
+    import TodoItem from './TodoItem'
     export default {
         name: 'TodoList',
+        components:{
+          TodoItem
+        },
         data() {
             return{
                 newTodo:'',
@@ -67,11 +64,20 @@
                 ]
             }
         },
+
+        methods:{
+            checkAllTodos(){
+                this.todos.forEach((todo) => todo.completed = event.target.checked);
+            },
+            clearTodos(){
+                this.todos=this.todos.filter(todo =>!todo.completed)
+            }
+        },
         computed:{
             remaining(){
-                return this.todos.filter(todo => !todo.completed).length;
+              return this.todos.filter(todo => todo.completed).length;
             },
-            filterTodos(){
+            filterTodos() {
                 if(this.filter=='all'){
                     return this.todos;
                 }
@@ -82,68 +88,19 @@
                 else if(this.filter=='completed'){
                     return this.todos.filter(todo => todo.completed);
                 }
-                return this.todos;
-            },
-            showClearButton(){
-                return this.todos.filter(todo =>todo.completed).length>0
-            }
-        },
-        methods:{
-            addTodo(){
-                if(this.newTodo.trim().length==0){
-                    return;
-                }
-                this.todos.push({
-                    id:this.idForTo,
-                    title:this.newTodo,
-                    completed:false,
-                    editing:false
-                });
-
-                this.newTodo='';
-                this.idForTo++;
             },
 
-            removeTodo(index){
-                this.todos.splice(index,1);
-            },
-            editTodo(todo){
-                todo.editing = true;
-                this.beforeEditCache=todo.title;
-            },
-            doneEdit(todo){
-                 if(todo.title.trim()==0){
-                    todo.title=this.beforeEditCache;
-                }
-                todo.editing=false
-            },
-            checkAllTodos(){
-                this.todos.forEach((todo) => todo.completed = event.target.checked);
-            },
-            clearTodos(){
-                this.todos=this.todos.filter(todo =>!todo.completed)
-            }
         }
     }
 </script>
+
 <style>
-#list-todo{
-    width: 600px;
-    margin: 0 auto;
-}
-.todo-item{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-}
-.todo-item-left{
-    display:flex;
-    align-items:center;
-}
-.container1{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
+    #app {
+        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        color: #2c3e50;
+        margin-top: 60px;
+    }
 </style>
