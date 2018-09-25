@@ -7,7 +7,7 @@ export default new Router({
   routes: [
     {
       path: '/basic',
-      name: 'TodoList',
+      name: 'TodoListBasic',
       component: TodoListBasic
     }
   ],
